@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
+import { MathJaxSvg } from 'react-native-mathjax-html-to-svg';
 
 export default function Page() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hello World</Text>
+      <MathJaxSvg>
+        {'$$x^2+(y-\\sqrt[3]{x^2})^2=1$$'}
+      </MathJaxSvg>
     </View>
   );
 }
