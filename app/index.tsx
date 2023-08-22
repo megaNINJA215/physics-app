@@ -1,19 +1,81 @@
-import { StyleSheet, View, Text, Pressable, FlatList } from "react-native";
-import { Dimensions } from 'react-native';
+import { useState } from "react";
+import { StyleSheet, View, Text, Pressable, FlatList, Platform, Dimensions, StatusBar, SafeAreaView } from "react-native";
 
 export default function Page() {
 
+  const [isSettingSVisible, setSettingSVisible] = useState(false);
+  const [isDarkMode, setDarkMode] = useState(true);
+  const [isPolish, setPolishLanguage] = useState(true);
 
   return (
-    <View style={styles.main}>
+    <View style={[styles.main, { backgroundColor: isDarkMode ? '#555555' : '#ffffff' }]}>
+      <SafeAreaView style={{ backgroundColor: isDarkMode ? '#555555' : '#ffffff' }}>
+        <StatusBar translucent={true} barStyle={isDarkMode ? "light-content" : "dark-content"} animated={false} hidden={false} backgroundColor={isDarkMode ? '#555555' : '#ffffff'} />
+      </SafeAreaView>
+      <View style={[styles.settingsMenu, { left: isSettingSVisible ? 0 : -200 }]}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <Pressable onPress={() => {
+            setSettingSVisible(false);
+          }} style={{ flex: 1, borderTopLeftRadius: 16, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ color: 'red', fontSize: 40, fontWeight: '400' }}>X</Text>
+          </Pressable>
+          <View style={{ flex: 3, borderLeftWidth: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 20 }}>{isPolish ? "Ustawienia" : "Settings"}</Text>
+          </View>
+        </View>
+        <View style={{ flex: 1, borderTopWidth: 1 }}>
+          <Pressable
+            style={{ width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center' }}
+            onPress={() => {
+              setDarkMode(!isDarkMode);
+            }}>
+            <View style={{ flex: 8, alignItems: 'center' }}>
+              <Text style={{ fontSize: 20 }}>{isPolish ? "Tryb Ciemny" : "Dark Mode"}:</Text>
+            </View>
+            <View style={{ flex: 3, alignItems: 'center' }}>
+              <View style={{ backgroundColor: isDarkMode ? 'black' : 'white', width: 30, height: 30, borderRadius: 15, borderWidth: 1, borderColor: isDarkMode ? 'white' : 'black' }}></View>
+            </View>
+          </Pressable>
+        </View>
+        <View style={{ flex: 1, borderTopWidth: 1 }}>
+          <Pressable
+            style={{ width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}
+            onPress={() => {
+              setPolishLanguage(!isPolish);
+            }}>
+            <Text style={{ fontSize: 20 }}>{isPolish ? "Język" : "Language"}: {isPolish ? "Polski" : "English"}</Text>
+          </Pressable>
+        </View>
+        <View style={{ flex: 1, borderTopWidth: 1 }}>
+          <Pressable
+            style={{ width: '100%', height: '100%', flexDirection: 'row', alignItems: 'center' }}
+            onPress={() => {
+              console.log('open informations');
+            }}>
+            <View style={{ flex: 4, alignItems: 'center' }}>
+              <Text style={{ fontSize: 20 }}>{isPolish ? "Informacje" : "Informations"}</Text>
+            </View>
+          </Pressable>
+
+        </View>
+      </View>
+
       <View style={styles.header}>
-        <Pressable onPress={() => { console.log("open settings"); }}>
-          <View style={styles.settings}></View>
-        </Pressable>
-        <Text style={styles.title}>Fizyka</Text>
-        <Pressable onPress={() => { console.log("open search"); }}>
-          <View style={styles.search}></View>
-        </Pressable>
+
+        <View style={styles.settings}><Pressable onPress={() => {
+          setSettingSVisible(true);
+
+        }}
+          style={{ width: '100%', height: '100%', borderRadius: 15 }}></Pressable>
+        </View>
+
+        <Text style={styles.title}>{isPolish ? "Fizyka" : "Physics"}</Text>
+        <View style={styles.search}>
+          <Pressable onPress={() => {
+            console.log("open search");
+          }}
+            style={{ width: '100%', height: '100%', borderRadius: 15 }}></Pressable>
+        </View>
       </View>
 
       <View style={styles.constAndVariable}>
@@ -21,24 +83,21 @@ export default function Page() {
         <Pressable style={styles.variable} onPress={() => { console.log("open variable"); }}></Pressable>
       </View>
 
-      <View style={styles.subjects}>
+      <View style={{ flex: 13 }}>
         <FlatList
           data={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"]}
           renderItem={({ item }) => {
             return (
-              <Pressable onPress={() => {
+              <Pressable style={styles.subject} onPress={() => {
                 console.log("open subject: " + item);
-                console.log((Dimensions.get('window').height / 8) * 0.1);
               }}>
-                <View style={styles.subject}>
-                  <Text>{item}</Text>
-                </View>
+                <Text>{item}</Text>
               </Pressable>
             )
           }}
         />
       </View>
-    </View >
+    </View>
   );
 }
 
@@ -69,7 +128,7 @@ const styles = StyleSheet.create({
     height: 30,
     margin: 30,
     backgroundColor: '#ffd800',
-    borderRadius: 20,
+    borderRadius: 15,
     borderColor: 'black',
     borderWidth: 2,
   },
@@ -105,9 +164,6 @@ const styles = StyleSheet.create({
     width: '45%',
     margin: '2%',
   },
-  subjects: {
-    flex: 13,
-  },
   subject: {
     backgroundColor: '#00ffff',
     width: Dimensions.get('window').width - 30,
@@ -119,5 +175,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  settingsMenu: {
+    display: 'flex',
+    width: 200,
+    height: 200,
+    backgroundColor: '#dddddd',
+    position: 'absolute',
+    zIndex: 1,
+    top: Dimensions.get('window').height / 32 - 15,
+    left: 0,
+    opacity: 1,
+    borderRadius: 16,
   }
 });
