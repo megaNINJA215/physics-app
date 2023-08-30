@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { StyleSheet, View, Text, Pressable, FlatList, Dimensions, StatusBar, SafeAreaView, Image, Animated } from "react-native";
+import { StyleSheet, View, Text, Pressable, FlatList, Dimensions, StatusBar, SafeAreaView, Image, Animated, Platform } from "react-native";
+import Constants from 'expo-constants';
+const statusBarHeight = Constants.statusBarHeight;
 
 export default function Page() {
 
@@ -16,8 +18,9 @@ export default function Page() {
   }
 
   return (
-    <View style={[styles.main, { backgroundColor: isDarkMode ? '#1f1f1f' : '#f1f1f1' }]}>
-      <SafeAreaView style={{ backgroundColor: isDarkMode ? '#1f1f1f' : '#f1f1f1' }}>
+    /* wzięcie wszystkiego w SafeAreaView zamiast View pozostawia pasek na dole IOS*/
+    <View style={[styles.main, { backgroundColor: isDarkMode ? '#1f1f1f' : '#f1f1f1', paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight }]}>
+      <SafeAreaView>
         <StatusBar
           translucent={true}
           barStyle={isDarkMode ? "light-content" : "dark-content"}
@@ -124,6 +127,9 @@ export default function Page() {
 
 const styles = StyleSheet.create({
   main: {
+    position: "absolute",
+    width: "100%",
+    height: Dimensions.get('screen').height,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
@@ -189,7 +195,7 @@ const styles = StyleSheet.create({
     height: 200,
     position: 'absolute',
     zIndex: 1,
-    top: Dimensions.get('window').height / 32 - 20,
+    top: Dimensions.get('window').height / 32 - 25 + statusBarHeight,
     left: -200,
     opacity: 1,
     borderRadius: 16,
