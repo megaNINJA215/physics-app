@@ -1,11 +1,19 @@
 import { useState } from "react";
-import { StyleSheet, View, Text, Pressable, FlatList, Dimensions, StatusBar, SafeAreaView, Image } from "react-native";
+import { StyleSheet, View, Text, Pressable, FlatList, Dimensions, StatusBar, SafeAreaView, Image, Animated } from "react-native";
 
 export default function Page() {
 
-  const [isSettingSVisible, setSettingSVisible] = useState(false);
   const [isDarkMode, setDarkMode] = useState(true);
   const [isPolish, setPolishLanguage] = useState(true);
+  const [settingsAnimationValue] = useState(new Animated.Value(-200));
+
+  function settingsToggle(isSettingsVisible: boolean) {
+    Animated.timing(settingsAnimationValue, {
+      toValue: isSettingsVisible ? 0 : -200,
+      duration: 400,
+      useNativeDriver: false,
+    }).start();
+  }
 
   return (
     <View style={[styles.main, { backgroundColor: isDarkMode ? '#1f1f1f' : '#f1f1f1' }]}>
@@ -17,10 +25,12 @@ export default function Page() {
           backgroundColor={isDarkMode ? '#1f1f1f' : '#f1f1f1'}
         />
       </SafeAreaView>
-      <View style={[styles.settingsMenu, { left: isSettingSVisible ? 0 : -200, backgroundColor: isDarkMode ? '#35373a' : '#cdcdcd' }]}>
+
+
+      <Animated.View style={[styles.settingsMenu, { backgroundColor: isDarkMode ? '#35373a' : '#cdcdcd', left: settingsAnimationValue }]}>
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <Pressable onPress={() => {
-            setSettingSVisible(false);
+            settingsToggle(false);
           }} style={{ flex: 1, borderTopLeftRadius: 16, alignItems: 'center', justifyContent: 'center' }}>
             <Image style={{ width: 25, height: 25 }} source={require('./icons/left.png')} />
           </Pressable>
@@ -64,17 +74,17 @@ export default function Page() {
           </Pressable>
 
         </View>
-      </View>
+      </Animated.View>
+
 
       <View style={styles.header}>
 
         <View style={[styles.settings, { backgroundColor: isDarkMode ? '#35373a' : '#cdcdcd' }]}>
           <Pressable onPress={() => {
-            setSettingSVisible(true);
-
+            settingsToggle(true);
           }}
             style={{ width: '100%', height: '100%', borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-            <Image style={{ width: 30, height: 30 }} source={require('./icons/settings.png') /*isDarkMode ? require('./icons/light/settings.png') : require('./icons/dark/settings.png') */} />
+            <Image style={{ width: 30, height: 30 }} source={require('./icons/settings.png')} />
           </Pressable>
         </View>
 
@@ -84,7 +94,7 @@ export default function Page() {
             console.log("open search");
           }}
             style={{ width: '100%', height: '100%', borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-            <Image style={{ width: 25, height: 25 }} source={require('./icons/search.png') /* isDarkMode ? require('./icons/light/search.png') : require('./icons/dark/search.png')*/} />
+            <Image style={{ width: 25, height: 25 }} source={require('./icons/search.png')} />
           </Pressable>
         </View>
       </View>
@@ -180,7 +190,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     top: Dimensions.get('window').height / 32 - 20,
-    left: 0,
+    left: -200,
     opacity: 1,
     borderRadius: 16,
   }
