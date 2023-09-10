@@ -1,9 +1,8 @@
 import { View, StyleSheet, Pressable, Image, Text } from "react-native";
+import '../global';
 
 export default function Header({
-    settingsToggle = (x: boolean) => { },
-    isDarkMode = true,
-    isPolish = true
+    settingsToggle = (x: boolean) => { }
 }) {
 
     const styles = StyleSheet.create({
@@ -19,7 +18,7 @@ export default function Header({
             height: 40,
             margin: 25,
             borderRadius: 20,
-            backgroundColor: isDarkMode ? '#35373a' : '#cdcdcd',
+            backgroundColor: global.isDarkMode ? '#35373a' : '#cdcdcd',
             justifyContent: 'center',
             alignItems: 'center',
         },
@@ -28,14 +27,14 @@ export default function Header({
             height: 40,
             margin: 25,
             borderRadius: 20,
-            backgroundColor: isDarkMode ? '#35373a' : '#cdcdcd',
+            backgroundColor: global.isDarkMode ? '#35373a' : '#cdcdcd',
             justifyContent: 'center',
             alignItems: 'center',
         },
         title: {
             fontSize: 32,
             fontWeight: 'bold',
-            color: isDarkMode ? '#f1f1f1' : '#1f1f1f'
+            color: global.isDarkMode ? '#f1f1f1' : '#1f1f1f'
         },
     });
 
@@ -49,7 +48,7 @@ export default function Header({
                 <Image style={{ width: 30, height: 30 }} source={require('../icons/settings.png')} />
             </Pressable>
 
-            <Text style={styles.title}>{isPolish ? "Fizyka" : "Physics"}</Text>
+            <Text style={styles.title}>{global.isPolish ? "Fizyka" : "Physics"}</Text>
 
             <Pressable onPress={() => {
                 console.log("open search");

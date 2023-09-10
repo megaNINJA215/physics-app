@@ -4,12 +4,16 @@ import Header from './components/header';
 import SettingsMenu from './components/settingsMenu';
 import ConstAndVariable from './components/constAndVariable';
 import SubjectList from './components/subjectList';
+import './global';
 
 export default function Page() {
 
-  const [isDarkMode, setDarkMode] = useState(true);
-  const [isPolish, setPolishLanguage] = useState(true);
   const [settingsAnimationValue] = useState(new Animated.Value(-200));
+  const [isDarkMode, setDarkMode] = useState(global.isDarkMode);
+  const [isPolish, setPolishLanguage] = useState(global.isPolish);
+
+  global.isDarkMode = isDarkMode;
+  global.isPolish = isPolish;
 
   function settingsToggle(isSettingsVisible: boolean) {
     Animated.timing(settingsAnimationValue, {
@@ -27,7 +31,7 @@ export default function Page() {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: isDarkMode ? '#1f1f1f' : '#f1f1f1',
+      backgroundColor: global.isDarkMode ? '#1f1f1f' : '#f1f1f1',
       paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
     },
   });
@@ -38,22 +42,20 @@ export default function Page() {
       <SafeAreaView>
         <StatusBar
           translucent={true}
-          barStyle={isDarkMode ? "light-content" : "dark-content"}
+          barStyle={global.isDarkMode ? "light-content" : "dark-content"}
           animated={false} hidden={false}
-          backgroundColor={isDarkMode ? '#1f1f1f' : '#f1f1f1'}
+          backgroundColor={global.isDarkMode ? '#1f1f1f' : '#f1f1f1'}
         />
       </SafeAreaView>
 
       <SettingsMenu
         toggle={settingsToggle}
         animationValue={settingsAnimationValue}
-        isDarkMode={isDarkMode}
-        isPolish={isPolish}
         setDarkMode={setDarkMode}
         setPolishLanguage={setPolishLanguage}
       />
-      <Header settingsToggle={settingsToggle} isDarkMode={isDarkMode} isPolish={isPolish} />
-      <ConstAndVariable isDarkMode={isDarkMode} />
+      <Header settingsToggle={settingsToggle} />
+      <ConstAndVariable />
       <SubjectList />
     </View>
   );

@@ -1,8 +1,7 @@
 import { View, Pressable, StyleSheet, Dimensions } from "react-native";
+import '../global';
 
-export default function ConstAndVariable({
-    isDarkMode = true
-}) {
+export default function ConstAndVariable() {
 
     const styles = StyleSheet.create({
         constAndVariable: {
@@ -12,7 +11,7 @@ export default function ConstAndVariable({
             alignItems: "center",
             justifyContent: "space-between",
             borderBottomWidth: 3,
-            borderColor: isDarkMode ? '#35373a' : '#c4c4c4',
+            borderColor: global.isDarkMode ? '#35373a' : '#c4c4c4',
         },
         const: {
             backgroundColor: '#ff0000',
@@ -35,7 +34,5 @@ export default function ConstAndVariable({
             <Pressable style={styles.const} onPress={() => { console.log("open const"); }}></Pressable>
             <Pressable style={styles.variable} onPress={() => { console.log("open variable"); }}></Pressable>
         </View>
-    )
-}
-
-
+    );
+};
