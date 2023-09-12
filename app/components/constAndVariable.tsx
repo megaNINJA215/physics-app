@@ -1,5 +1,5 @@
-import { View, Pressable, StyleSheet, Dimensions } from "react-native";
-import '../global';
+import { View, Pressable, StyleSheet, Dimensions, Text } from "react-native";
+import { router } from 'expo-router';
 
 export default function ConstAndVariable() {
 
@@ -11,28 +11,32 @@ export default function ConstAndVariable() {
             alignItems: "center",
             justifyContent: "space-between",
             borderBottomWidth: 3,
-            borderColor: global.isDarkMode ? '#35373a' : '#c4c4c4',
+            borderColor: '#7a8186',
         },
-        const: {
-            backgroundColor: '#ff0000',
+        button: {
+            backgroundColor: global.isDarkMode ? '#2d2f32' : '#b8b8b8',
             borderRadius: 5,
             height: '80%',
             width: '45%',
             margin: '2%',
+            justifyContent: 'center',
+            alignItems: 'center'
         },
-        variable: {
-            backgroundColor: '#ff6a00',
-            borderRadius: 5,
-            height: '80%',
-            width: '45%',
-            margin: '2%',
-        },
+        name: {
+            color: global.isDarkMode ? '#f1f1f1' : '#1f1f1f',
+            fontSize: 24,
+            fontWeight: '600'
+        }
     })
 
     return (
         <View style={styles.constAndVariable}>
-            <Pressable style={styles.const} onPress={() => { console.log("open const"); }}></Pressable>
-            <Pressable style={styles.variable} onPress={() => { console.log("open variable"); }}></Pressable>
+            <Pressable style={styles.button} onPress={() => {
+                router.push('/pages/constants');
+            }}><Text style={styles.name}>{global.isPolish ? "Stałe" : "Constants"}</Text></Pressable>
+            <Pressable style={styles.button} onPress={() => {
+                router.push('/pages/variables');
+            }}><Text style={styles.name}>{global.isPolish ? "Zmienne" : "Variables"}</Text></Pressable>
         </View>
     );
 };

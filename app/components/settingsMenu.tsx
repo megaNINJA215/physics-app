@@ -1,7 +1,6 @@
 import { Animated, Pressable, View, StyleSheet, Image, Text } from "react-native";
 import Constants from 'expo-constants';
 import { router } from 'expo-router';
-import '../global';
 const statusBarHeight = Constants.statusBarHeight;
 
 export default function SettingsMenu({
@@ -23,6 +22,8 @@ export default function SettingsMenu({
             opacity: 1,
             borderRadius: 16,
             backgroundColor: global.isDarkMode ? '#35373a' : '#cdcdcd',
+            borderColor: global.isDarkMode ? '#2d2f32' : '#b8b8b8',
+            borderWidth: 2
         },
         element: {
             width: '100%',

@@ -1,6 +1,5 @@
 import { Pressable, StyleSheet, View, Text, Image, Platform, Linking, StatusBar, SafeAreaView, Dimensions } from "react-native";
 import { router } from "expo-router";
-import '../global';
 
 export default function Page() {
 

@@ -1,5 +1,5 @@
 import { View, StyleSheet, Pressable, Image, Text } from "react-native";
-import '../global';
+import { router } from 'expo-router';
 
 export default function Header({
     settingsToggle = (x: boolean) => { }
@@ -51,7 +51,7 @@ export default function Header({
             <Text style={styles.title}>{global.isPolish ? "Fizyka" : "Physics"}</Text>
 
             <Pressable onPress={() => {
-                console.log("open search");
+                router.push('/pages/search');
             }}
                 style={styles.search}>
                 <Image style={{ width: 25, height: 25 }} source={require('../icons/search.png')} />

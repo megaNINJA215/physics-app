@@ -4,7 +4,6 @@ import Header from './components/header';
 import SettingsMenu from './components/settingsMenu';
 import ConstAndVariable from './components/constAndVariable';
 import SubjectList from './components/subjectList';
-import './global';
 
 export default function Page() {
 
